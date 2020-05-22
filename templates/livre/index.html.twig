@@ -4,6 +4,13 @@
 
 {% block body %}
     <h1>Livre index</h1>
+    {% set is_admin=false %}
+    {% for role in app.user.roles %}
+        {% if role=="ROLE_ADMIN" %}
+            {% set is_admin=true  %}
+        {% endif %}
+    {% endfor %}
+
 
     <table class="table">
         <thead>
@@ -34,7 +41,10 @@
                 <td>{{ livre.updateAt ? livre.updateAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('livre_show', {'id': livre.id}) }}">show</a>
-                    <a href="{{ path('livre_edit', {'id': livre.id}) }}">edit</a>
+                    <a href="{{ path('livre_emprunt', {'id': livre.id}) }}">emprunter</a>
+                        {% if is_admin %}
+                            <a href="{{ path('livre_edit', {'id': livre.id}) }}">edit</a>
+                        {% endif %}
                 </td>
             </tr>
         {% else %}
@@ -44,6 +54,9 @@
         {% endfor %}
         </tbody>
     </table>
+        {% if is_admin %}
+            <a href="{{ path('livre_new') }}">Create new</a>
+        {% endif %}
 
-    <a href="{{ path('livre_new') }}">Create new</a>
+
 {% endblock %}

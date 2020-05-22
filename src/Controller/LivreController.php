@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Emprunt;
 use App\Entity\Livre;
 use App\Form\LivreType;
+use App\Repository\EmpruntRepository;
 use App\Repository\LivreRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,7 +28,7 @@ class LivreController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="livre_new", methods={"GET","POST"})
+     * @Route("/admin/livre/new", name="livre_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -60,7 +62,7 @@ class LivreController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="livre_edit", methods={"GET","POST"})
+     * @Route("/admin/livre/{id}/edit", name="livre_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Livre $livre): Response
     {
@@ -80,7 +82,7 @@ class LivreController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="livre_delete", methods={"DELETE"})
+     * @Route("admin/livre/{id}", name="livre_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Livre $livre): Response
     {
@@ -92,4 +94,27 @@ class LivreController extends AbstractController
 
         return $this->redirectToRoute('livre_index');
     }
+
+
+
+
+    /**
+     * @Route("/{id}/emprunt", name="livre_emprunt", methods={"GET"})
+     */
+    public function emprunter(Livre $livre): Response
+    {
+        $user=$this->getUser();
+
+        $emprunt=new Emprunt();
+        $emprunt->setUser($user)->setLivre($livre);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($emprunt);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('livre_index');
+    }
+
+
+
 }

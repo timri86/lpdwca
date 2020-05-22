@@ -62,9 +62,15 @@ class User implements UserInterface
      */
     private $livres;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Emprunt", mappedBy="user")
+     */
+    private $emprunts;
+
     public function __construct()
     {
         $this->livres = new ArrayCollection();
+        $this->emprunts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -218,6 +224,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($livre->getUser() === $this) {
                 $livre->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Emprunt[]
+     */
+    public function getEmprunts(): Collection
+    {
+        return $this->emprunts;
+    }
+
+    public function addEmprunt(Emprunt $emprunt): self
+    {
+        if (!$this->emprunts->contains($emprunt)) {
+            $this->emprunts[] = $emprunt;
+            $emprunt->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEmprunt(Emprunt $emprunt): self
+    {
+        if ($this->emprunts->contains($emprunt)) {
+            $this->emprunts->removeElement($emprunt);
+            // set the owning side to null (unless already changed)
+            if ($emprunt->getUser() === $this) {
+                $emprunt->setUser(null);
             }
         }
 

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -67,11 +69,17 @@ class Livre
      */
     private $category;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Emprunt", mappedBy="livre")
+     */
+    private $emprunts;
+
     public function __construct()
     {
         $this->created_At= new \DateTime();
         $this->update_At= new \DateTime();
         $this->disponibility=true;
+        $this->emprunts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -197,5 +205,40 @@ class Livre
         $this->category = $category;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Emprunt[]
+     */
+    public function getEmprunts(): Collection
+    {
+        return $this->emprunts;
+    }
+
+    public function addEmprunt(Emprunt $emprunt): self
+    {
+        if (!$this->emprunts->contains($emprunt)) {
+            $this->emprunts[] = $emprunt;
+            $emprunt->setLivre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEmprunt(Emprunt $emprunt): self
+    {
+        if ($this->emprunts->contains($emprunt)) {
+            $this->emprunts->removeElement($emprunt);
+            // set the owning side to null (unless already changed)
+            if ($emprunt->getLivre() === $this) {
+                $emprunt->setLivre(null);
+            }
+        }
+
+        return $this;
+    }
+    public function __toString()
+    {
+        return $this->getTitre();
     }
 }
