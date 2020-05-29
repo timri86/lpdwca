@@ -18,6 +18,7 @@ class LivreType extends AbstractType
             ->add('dateParution')
             ->add('iban')
             ->add('category')
+            ->add('nbre')
         ;
     }
 

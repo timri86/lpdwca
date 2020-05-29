@@ -4,29 +4,23 @@
 
 {% block body %}
     <h1>Livre index</h1>
-    {% set is_admin=false %}
-    {% for role in app.user.roles %}
-        {% if role=="ROLE_ADMIN" %}
-            {% set is_admin=true  %}
-        {% endif %}
-    {% endfor %}
 
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Titre</th>
-                <th>Description</th>
-                <th>Auteur</th>
-                <th>DateParution</th>
-                <th>Disponibility</th>
-                <th>nbre</th>
-                <th>Iban</th>
-                <th>Created_At</th>
-                <th>Update_At</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Titre</th>
+            <th>Description</th>
+            <th>Auteur</th>
+            <th>DateParution</th>
+            <th>Disponibility</th>
+            <th>nbre</th>
+            <th>Iban</th>
+            <th>Created_At</th>
+            <th>Update_At</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for livre in livres %}
@@ -43,12 +37,7 @@
                 <td>{{ livre.updateAt ? livre.updateAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('livre_show', {'id': livre.id}) }}">show</a>
-                    {% if livre.nbre>0 %}
-                    <a href="{{ path('livre_emprunt', {'id': livre.id}) }}">emprunter</a>
-                    {% endif %}
-                        {% if is_admin %}
-                            <a href="{{ path('livre_edit', {'id': livre.id}) }}">edit</a>
-                        {% endif %}
+                    <a href="{{ path('livre_emprunt', {'id': livre.id}) }}">retourner</a>
                 </td>
             </tr>
         {% else %}
@@ -58,9 +47,6 @@
         {% endfor %}
         </tbody>
     </table>
-        {% if is_admin %}
-            <a href="{{ path('livre_new') }}">Create new</a>
-        {% endif %}
 
 
 {% endblock %}

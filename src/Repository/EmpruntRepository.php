@@ -19,6 +19,7 @@ class EmpruntRepository extends ServiceEntityRepository
         parent::__construct($registry, Emprunt::class);
     }
 
+
     // /**
     //  * @return Emprunt[] Returns an array of Emprunt objects
     //  */

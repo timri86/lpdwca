@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Livre;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\DocBlock\Tags\Reference\Url;
 
 /**
  * @method Livre|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,6 +19,23 @@ class LivreRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Livre::class);
     }
+
+    public function getLivreForUser($user){
+
+        $qb=$this->createQueryBuilder('l')
+            ->leftJoin('l.emprunts','e')->addSelect('e')
+            ->where('e.user is NULL');
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getEmpruntUser($user){
+
+        $qb=$this->createQueryBuilder('l')
+            ->innerJoin('l.emprunts','e')->addSelect('e')
+            ->where('e.user=:user')->setParameter('user', $user);
+        return $qb->getQuery()->getResult();
+    }
+
 
     // /**
     //  * @return Livre[] Returns an array of Livre objects

@@ -74,6 +74,11 @@ class Livre
      */
     private $emprunts;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $nbre;
+
     public function __construct()
     {
         $this->created_At= new \DateTime();
@@ -240,5 +245,17 @@ class Livre
     public function __toString()
     {
         return $this->getTitre();
+    }
+
+    public function getNbre(): ?int
+    {
+        return $this->nbre;
+    }
+
+    public function setNbre(?int $nbre): self
+    {
+        $this->nbre = $nbre;
+
+        return $this;
     }
 }

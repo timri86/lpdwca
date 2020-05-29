@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\Emprunt;
 use App\Entity\Livre;
@@ -98,22 +98,7 @@ class LivreController extends AbstractController
 
 
 
-    /**
-     * @Route("/{id}/emprunt", name="livre_emprunt", methods={"GET"})
-     */
-    public function emprunter(Livre $livre): Response
-    {
-        $user=$this->getUser();
 
-        $emprunt=new Emprunt();
-        $emprunt->setUser($user)->setLivre($livre);
-
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($emprunt);
-        $entityManager->flush();
-
-        return $this->redirectToRoute('livre_index');
-    }
 
 
 
