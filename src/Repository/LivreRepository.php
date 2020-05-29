@@ -24,7 +24,11 @@ class LivreRepository extends ServiceEntityRepository
 
         $qb=$this->createQueryBuilder('l')
             ->leftJoin('l.emprunts','e')->addSelect('e')
-            ->where('e.user is NULL');
+            ->where('e.user !=:user')
+            ->orWhere('e.user is NULL')
+            ->setParameter('user',$user)
+        ;
+
         return $qb->getQuery()->getResult();
     }
 

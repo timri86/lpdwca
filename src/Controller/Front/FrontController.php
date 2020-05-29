@@ -18,9 +18,10 @@ class FrontController extends AbstractController
     public function index(LivreRepository $livreRepository)
     {
         $user=$this->getUser();
+
         return $this->render('front/index.html.twig',
         [
-            'livres'=>$livreRepository->getEmpruntUser($user),
+            'livres'=>$livreRepository->getLivreForUser($user),
         ]);
     }
 
@@ -49,7 +50,7 @@ class FrontController extends AbstractController
         $entityManager->persist($emprunt);
         $entityManager->flush();
 
-        return $this->redirectToRoute('livre_index');
+        return $this->redirectToRoute('front_index');
     }
 
     /**
