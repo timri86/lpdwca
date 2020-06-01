@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Livre index{% endblock %}
+
+{% block body %}
+<h1 class="mt-4">Dashboard</h1><a href="{{ path('category_new') }}" class="btn btn-primary">Nouvelle catégorie</a>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active">Liste des Catégories</li>
+</ol>
+<div class="row">
+    <div class="container">
+        <div class="table-responsive">
+            {% for message in app.flashes('notice') %}
+                <div class="alert alert-success" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nom</th>
+                        <th>Description</th>
+                        <th>actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for category in categories %}
+                    <tr>
+                        <td>{{ category.id }}</td>
+                        <td>{{ category.nom }}</td>
+                        <td>{{ category.description }}</td>
+                        <td>
+                            <a href="{{ path('category_show', {'id': category.id}) }}">show</a>
+                            <a href="{{ path('category_edit', {'id': category.id}) }}">edit</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

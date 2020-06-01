@@ -3,54 +3,50 @@
 {% block title %}Livre index{% endblock %}
 
 {% block body %}
+<h1 class="mt-4">Dashboard</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active">Mes emprunts</li>
+</ol>
+<div class="row">
     <div class="container">
-        <h1>mes emprunt</h1>
-
-
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>Titre</th>
-                <th>Description</th>
-                <th>Auteur</th>
-                <th>DateParution</th>
-                <th>Disponibility</th>
-                <th>nbre</th>
-                <th>Iban</th>
-                <th>Created_At</th>
-                <th>Update_At</th>
-                <th>actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for livre in livres %}
-                <tr>
-                    <td>{{ livre.id }}</td>
-                    <td>{{ livre.titre }}</td>
-                    <td>{{ livre.description }}</td>
-                    <td>{{ livre.auteur }}</td>
-                    <td>{{ livre.dateParution ? livre.dateParution|date('Y-m-d') : '' }}</td>
-                    <td>{{ livre.disponibility ? 'Yes' : 'No' }}</td>
-                    <td>{{ livre.nbre }}</td>
-                    <td>{{ livre.iban }}</td>
-                    <td>{{ livre.createdAt ? livre.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ livre.updateAt ? livre.updateAt|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>
-                        <a href="{{ path('livre_show', {'id': livre.id}) }}">show</a>
-                        <a href="{{ path('livre_emprunt', {'id': livre.id}) }}">retourner</a>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="10">no records found</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-        <a href="{{ path('front_index') }}" class="btn btn-success">Retour à l'accueil</a>
+        <div class="table-responsive">
+            <div class="container">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr class="thead-dark">
+                        <th>Id</th>
+                        <th>Titre</th>
+                        <th>Description</th>
+                        <th>Auteur</th>
+                        <th>DateParution</th>
+                        <th>actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for livre in livres %}
+                        <tr>
+                            <td>{{ livre.id }}</td>
+                            <td>{{ livre.titre }}</td>
+                            <td>{{ livre.description }}</td>
+                            <td>{{ livre.auteur }}</td>
+                            <td>{{ livre.dateParution ? livre.dateParution|date('Y-m-d') : '' }}</td>
+                            <td>
+                                <a href="{{ path('livre_show', {'id': livre.id}) }}" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a>
+                                <a href="{{ path('livre_retourner', {'id': livre.id}) }}" class="btn btn-sm btn-primary" title="Retouner"><i class="fa fa-reply" aria-hidden="true"></i></a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="11">no records found</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <a href="{{ path('front_index') }}" class="btn btn-success">Retour à l'accueil</a>
+            </div>
+        </div>
     </div>
-
+</div>
 
 
 

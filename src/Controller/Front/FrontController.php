@@ -42,14 +42,33 @@ class FrontController extends AbstractController
         if($nbre==0){
             $livre->setDisponibility(false);
         }
-
-
-
-
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($emprunt);
         $entityManager->flush();
+        $this->addFlash(
+            'notice',
+            'L\'emprunt a été enregistré  avec succès'
+        );
 
+        return $this->redirectToRoute('front_index');
+    }
+
+    /**
+     * @Route("/{id}/retouner", name="livre_retourner", methods={"GET"})
+     */
+    public function retourner(Livre $livre, EmpruntRepository $empruntRepository): Response
+    {
+        $user=$this->getUser();
+
+        $emprunt=$empruntRepository->getEmpruntUser($livre, $user);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($emprunt);
+        $entityManager->flush();
+        $this->addFlash(
+            'notice',
+            'Le livre a été retourné avec succès'
+        );
         return $this->redirectToRoute('front_index');
     }
 
@@ -62,8 +81,6 @@ class FrontController extends AbstractController
         return $this->render('front/mes_emprunt.html.twig',[
             'livres'=>$livreRepository->getEmpruntUser($user),
         ]);
-
-
-
     }
+
 }

@@ -19,6 +19,13 @@ class EmpruntRepository extends ServiceEntityRepository
         parent::__construct($registry, Emprunt::class);
     }
 
+    public function getEmpruntUser($livre, $user){
+        return $this->createQueryBuilder('e')
+            ->where('e.livre=:livre')->setParameter('livre', $livre)
+            ->andWhere('e.user=:user')->setParameter('user', $user)
+            ->getQuery()->getOneOrNullResult();
+    }
+
 
     // /**
     //  * @return Emprunt[] Returns an array of Emprunt objects

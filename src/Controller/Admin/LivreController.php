@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/livre")
+ * @Route("admin/livre")
  */
 class LivreController extends AbstractController
 {
@@ -22,7 +22,7 @@ class LivreController extends AbstractController
      */
     public function index(LivreRepository $livreRepository): Response
     {
-        return $this->render('livre/index.html.twig', [
+        return $this->render('admin/livre/index.html.twig', [
             'livres' => $livreRepository->findAll(),
         ]);
     }
@@ -45,7 +45,7 @@ class LivreController extends AbstractController
             return $this->redirectToRoute('livre_index');
         }
 
-        return $this->render('livre/new.html.twig', [
+        return $this->render('admin/livre/new.html.twig', [
             'livre' => $livre,
             'form' => $form->createView(),
         ]);
@@ -56,7 +56,7 @@ class LivreController extends AbstractController
      */
     public function show(Livre $livre): Response
     {
-        return $this->render('livre/show.html.twig', [
+        return $this->render('admin/livre/show.html.twig', [
             'livre' => $livre,
         ]);
     }
@@ -75,7 +75,7 @@ class LivreController extends AbstractController
             return $this->redirectToRoute('livre_index');
         }
 
-        return $this->render('livre/edit.html.twig', [
+        return $this->render('admin/livre/edit.html.twig', [
             'livre' => $livre,
             'form' => $form->createView(),
         ]);
@@ -92,7 +92,7 @@ class LivreController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('livre_index');
+        return $this->redirectToRoute('admin/livre_index');
     }
 
 
